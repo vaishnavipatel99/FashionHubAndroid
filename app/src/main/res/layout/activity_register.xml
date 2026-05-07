@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#FAF7F2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create Account"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"/>
+
+            <!-- Name -->
+            <EditText
+                android:id="@+id/name"
+                android:hint="Full Name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp"/>
+
+            <!-- Email -->
+            <EditText
+                android:id="@+id/email"
+                android:hint="Email"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:inputType="textEmailAddress"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp"/>
+
+            <!-- Password -->
+            <EditText
+                android:id="@+id/password"
+                android:hint="Password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:inputType="textPassword"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp"/>
+
+            <!-- Button -->
+            <Button
+                android:id="@+id/registerBtn"
+                android:text="Register"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#E91E63"
+                android:textColor="#FFF"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
