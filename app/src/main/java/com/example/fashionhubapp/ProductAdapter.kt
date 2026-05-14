@@ -66,6 +66,7 @@ class ProductAdapter(
             val intent =
                 Intent(context, ProductDetailActivity::class.java)
 
+            intent.putExtra("pid", product.pid)
             intent.putExtra("name", product.productName)
             intent.putExtra("price", product.price.toString())
             intent.putExtra("description", product.description)

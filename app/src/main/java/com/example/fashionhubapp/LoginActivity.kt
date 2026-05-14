@@ -15,73 +15,150 @@ import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var email: EditText
-    lateinit var password: EditText
-    lateinit var loginBtn: Button
-    lateinit var goRegister: Button
+    private lateinit var email: EditText
+    private lateinit var password: EditText
+    private lateinit var loginBtn: Button
+    private lateinit var goRegister: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        // =========================
+        // FIND VIEWS
+        // =========================
+
         email = findViewById(R.id.email)
         password = findViewById(R.id.password)
+
         loginBtn = findViewById(R.id.loginBtn)
         goRegister = findViewById(R.id.goRegister)
 
         val api = RetrofitClient.instance
 
-        // Go to Register Page
+        // =========================
+        // REGISTER PAGE
+        // =========================
+
         goRegister.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+
+            startActivity(
+                Intent(
+                    this,
+                    RegisterActivity::class.java
+                )
+            )
         }
 
-        //  Login Click
+        // =========================
+        // LOGIN BUTTON
+        // =========================
+
         loginBtn.setOnClickListener {
 
-            val request = LoginRequest(
-                email.text.toString(),
-                password.text.toString()
-            )
+            val request =
+                LoginRequest(
+                    email.text.toString(),
+                    password.text.toString()
+                )
 
-            api.login(request).enqueue(object : Callback<LoginResponse> {
+            api.login(request)
+                .enqueue(object : Callback<LoginResponse> {
 
-                override fun onResponse(
-                    call: Call<LoginResponse>,
-                    response: Response<LoginResponse>
-                ) {
-                    if (response.isSuccessful) {
+                    override fun onResponse(
+                        call: Call<LoginResponse>,
+                        response: Response<LoginResponse>
+                    ) {
 
-                        val res = response.body()
+                        if (response.isSuccessful &&
+                            response.body() != null
+                        ) {
 
-                        val token = res?.token ?: ""
-                        val gid = res?.user?.gid ?: 0
+                            val res = response.body()!!
 
-                        //  Save data
-                        val pref = getSharedPreferences("fashionhub", MODE_PRIVATE)
-                        pref.edit()
-                            .putString("token", token)
-                            .putInt("gid", gid)
-                            .apply()
+                            val token =
+                                res.token ?: ""
 
-                        Toast.makeText(this@LoginActivity, "Login Success", Toast.LENGTH_SHORT).show()
+                            val gid =
+                                res.user?.gid ?: 0
 
-                        //  Redirect based on gid
-                        if (gid == 2) {
-                            startActivity(Intent(this@LoginActivity, AdminDashboardActivity::class.java))
+                            val uid =
+                                res.user?.uid ?: 0
+
+                            val username =
+                                res.user?.username ?: "User"
+
+                            // =========================
+                            // SAVE LOGIN DATA
+                            // =========================
+
+                            val pref =
+                                getSharedPreferences(
+                                    "FashionHub",
+                                    MODE_PRIVATE
+                                )
+
+                            pref.edit()
+                                .putString("token", token)
+                                .putInt("gid", gid)
+                                .putInt("uid", uid)
+                                .putString("name", username)
+                                .apply()
+
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Login Success",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            // =========================
+                            // REDIRECT
+                            // =========================
+
+                            if (gid == 2) {
+
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        AdminDashboardActivity::class.java
+                                    )
+                                )
+
+                            } else {
+
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        UserDashboardActivity::class.java
+                                    )
+                                )
+                            }
+
+                            finish()
+
                         } else {
-                            startActivity(Intent(this@LoginActivity, UserDashboardActivity::class.java))
+
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Invalid Login",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-
-                    } else {
-                        Toast.makeText(this@LoginActivity, "Invalid Login", Toast.LENGTH_SHORT).show()
                     }
-                }
 
-                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    Toast.makeText(this@LoginActivity, t.message, Toast.LENGTH_SHORT).show()
-                }
-            })
+                    override fun onFailure(
+                        call: Call<LoginResponse>,
+                        t: Throwable
+                    ) {
+
+                        Toast.makeText(
+                            this@LoginActivity,
+                            t.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
         }
     }
 }

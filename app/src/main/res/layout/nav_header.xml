@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:padding="20dp"
+    android:background="@color/background">
+
+    <!-- APP NAME -->
+
+    <TextView
+        android:id="@+id/txtAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FashionHub"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/secondary"/>
+
+    <!-- USER NAME -->
+
+    <TextView
+        android:id="@+id/txtHeaderUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome User"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/textDark"
+        android:layout_marginTop="12dp"/>
+
+</LinearLayout>
