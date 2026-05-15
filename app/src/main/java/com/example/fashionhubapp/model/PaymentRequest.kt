@@ -4,5 +4,7 @@
         val oid: Int,
         val method: String,
         val amount: Double,
-        val payStatus: String
+        val payStatus: String,
+        val payDate: String
+
     )

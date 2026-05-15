@@ -8,6 +8,9 @@ import com.example.fashionhubapp.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PaymentActivity : AppCompatActivity() {
 
@@ -36,7 +39,8 @@ class PaymentActivity : AppCompatActivity() {
         spinnerPayment.adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_dropdown_item,
-            listOf("Select", "CASH", "CARD", "WALLET")
+//            listOf("Select", "CASH", "CARD", "WALLET")
+            listOf("Select", "COD", "CARD", "UPI", "WALLET")
         )
 
         btnPay.setOnClickListener {
@@ -103,7 +107,11 @@ class PaymentActivity : AppCompatActivity() {
                 response: Response<OrderResponse>
             ) {
                 if (response.isSuccessful && response.body() != null) {
-                    createOrderItems(response.body()!!.oid, cartList, method)
+                    val oid = response.body()!!.orderId
+
+                    println("ORDER CREATED ID = $oid")
+
+                    createOrderItems(oid, cartList, method)
                 } else {
                     toast("Order creation failed")
                 }
@@ -149,34 +157,100 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     // ================= STEP 4: PAYMENT =================
+//    private fun createPayment(oid: Int, method: String) {
+//
+//        val paymentReq = PaymentRequest(
+//            oid = oid,
+//            method = method,
+//            amount = totalAmount,
+//            payStatus = "Paid"
+//        )
+//
+//        api.createPayment(paymentReq).enqueue(object : Callback<Any> {
+//            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+//
+//                if (!response.isSuccessful) {
+//                    toast("Payment failed ❌")
+//                    return
+//                }
+//
+//                toast("Order placed successfully 🎉")
+//                clearCart()
+//                finish()   // ✅ NOT finishAffinity()
+//            }
+//
+//            override fun onFailure(call: Call<Any>, t: Throwable) {
+//                toast("Payment error ❌")
+//            }
+//        })
+//    }
+
     private fun createPayment(oid: Int, method: String) {
+
+        val status =
+            if (method == "COD") "Pending"
+            else "Paid"
+
+        val currentDate = SimpleDateFormat(
+            "yyyy-MM-dd'T'HH:mm:ss",
+            Locale.getDefault()
+        ).format(Date())
 
         val paymentReq = PaymentRequest(
             oid = oid,
             method = method,
             amount = totalAmount,
-            payStatus = "SUCCESS"
+            payStatus = status,
+            payDate = currentDate
+
         )
 
+        println("PAYMENT OID = $oid")
         api.createPayment(paymentReq).enqueue(object : Callback<Any> {
+
+//            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+//
+//                if (!response.isSuccessful) {
+//                    toast("Payment failed ❌")
+//                    return
+//                }
+//
+//                toast("Order placed successfully 🎉")
+//
+//                clearCart()
+//
+//                finish()
+//            }
+
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
 
                 if (!response.isSuccessful) {
-                    toast("Payment failed ❌")
+
+                    val errorBody = response.errorBody()?.string()
+
+                    println("PAYMENT ERROR CODE = ${response.code()}")
+                    println("PAYMENT ERROR BODY = $errorBody")
+
+                    toast("Payment failed ❌ ${response.code()}")
+
                     return
                 }
 
-                toast("Order placed successfully 🎉")
-                clearCart()
-                finish()   // ✅ NOT finishAffinity()
-            }
+                println("PAYMENT SUCCESS")
 
+                toast("Order placed successfully 🎉")
+
+                clearCart()
+
+                finish()
+            }
             override fun onFailure(call: Call<Any>, t: Throwable) {
+                println("PAYMENT FAILURE = ${t.message}")
+
                 toast("Payment error ❌")
             }
         })
     }
-
     // ================= CLEAR CART (ONLY AFTER SUCCESS) =================
     private fun clearCart() {
 
