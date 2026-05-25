@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
+    android:gravity="center"
     android:background="#FFFFFF">
 
-    <!-- App Logo -->
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:src="@drawable/fashionlogo"
-        android:layout_marginBottom="20dp"/>
+        android:scaleType="fitCenter"/>
 
-    <!-- App Name -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="FashionHub"
-        android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="#E91E63"/>
+        android:textSize="32sp"
+        android:textColor="#E91E63"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Style Your Life"
+        android:textSize="14sp"
+        android:textColor="#777777"
+        android:layout_marginTop="4dp"/>
 
 </LinearLayout>

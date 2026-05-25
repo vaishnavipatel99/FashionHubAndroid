@@ -5,6 +5,7 @@
         val pid: Int,
         val sizeSelected: String,
         val quantity: Int,
-        val colorSelected: String
+        val colorSelected: String,
+        val selectedImage: String
 
     )

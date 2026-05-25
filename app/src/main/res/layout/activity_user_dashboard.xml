@@ -1,161 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.drawerlayout.widget.DrawerLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawerLayout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:orientation="vertical"
+    android:background="@color/background">
 
-    <!-- MAIN LAYOUT -->
+    <!-- ================= HEADER ================= -->
 
-    <LinearLayout
-        android:id="@+id/main"
+    <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/background">
+        android:layout_height="70dp"
+        android:background="@color/white"
+        android:elevation="2dp">
 
-        <!-- TOOLBAR -->
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/primary"
-            app:title="FashionHub"
-            app:titleTextColor="@color/secondary"/>
-
-        <!-- CONTENT -->
-
-        <androidx.core.widget.NestedScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:overScrollMode="never">
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp">
+
+            <!-- APP NAME -->
+
+            <TextView
+                android:id="@+id/txtLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FashionHub"
+                android:textStyle="bold"
+                android:textSize="26sp"
+                android:textColor="@color/textDark"
+                android:layout_centerVertical="true"/>
+
+            <!-- CART -->
+
+            <FrameLayout
+                android:id="@+id/cartLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/imgCart"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/cart"/>
+
+                <!-- BADGE -->
+
+                <TextView
+                    android:id="@+id/txtCartBadge"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="end"
+                    android:background="@drawable/badge_bg"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"/>
+            </FrameLayout>
+
+        </RelativeLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- USER INFO -->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- WELCOME -->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Welcome Back"
-                        android:textStyle="bold"
-                        android:textSize="28sp"
-                        android:textColor="@color/textDark"/>
-
-                    <TextView
-                        android:id="@+id/txtUsername"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Vaishnavi"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/secondary"
-                        android:layout_marginTop="4dp"/>
-
-                </LinearLayout>
-
-                <!-- SEARCH -->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp">
-
-                    <EditText
-                        android:id="@+id/etSearch"
-                        android:layout_width="0dp"
-                        android:layout_height="52dp"
-                        android:layout_weight="1"
-                        android:hint="Search Products"
-                        android:padding="14dp"
-                        />
-
-                    <ImageButton
-                        android:id="@+id/btnFilter"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
-                        android:layout_marginStart="10dp"
-                        android:backgroundTint="@color/secondary"
-                        android:src="@android:drawable/ic_menu_sort_by_size"
-                        />
-
-                </LinearLayout>
-
-                <!-- CATEGORIES -->
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Categories"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:textColor="@color/textDark"
-                    android:paddingStart="20dp"
-                    android:paddingTop="22dp"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerCategories"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:nestedScrollingEnabled="false"/>
-
-                <!-- PRODUCTS -->
+                    android:text="Hello 👋"
+                    android:textColor="@color/textLight"
+                    android:textSize="15sp"/>
 
                 <TextView
+                    android:id="@+id/txtUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Trending Products"
+                    android:layout_marginTop="4dp"
+                    android:text="Vaishnavi"
                     android:textStyle="bold"
-                    android:textSize="22sp"
-                    android:textColor="@color/textDark"
-                    android:paddingStart="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerProducts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="20dp"/>
+                    android:textSize="30sp"
+                    android:textColor="@color/textDark"/>
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+            <!-- SEARCH -->
 
-    </LinearLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp">
 
-    <!-- NAVIGATION -->
+                <EditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:drawableStart="@android:drawable/ic_menu_search"
+                    android:drawablePadding="12dp"
+                    android:hint="Search fashion..."
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:textColor="@color/textDark"
+                    android:textColorHint="@color/textLight"
+                    android:textSize="15sp"/>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationView"
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- BANNER -->
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:padding="28dp"
+                    android:background="@color/secondary">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NEW COLLECTION"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Summer Sale"
+                        android:textStyle="bold"
+                        android:textSize="34sp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="UP TO 50% OFF"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- CATEGORY TITLE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:paddingStart="20dp"
+                android:text="Categories"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="@color/textDark"/>
+
+            <!-- CATEGORY LIST -->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerCategories"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:paddingStart="12dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:nestedScrollingEnabled="false"/>
+
+            <!-- PRODUCT TITLE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:paddingStart="20dp"
+                android:text="Trending Products"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="@color/textDark"/>
+
+            <!-- PRODUCT LIST -->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_product"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         android:background="@color/white"
-        app:headerLayout="@layout/nav_header"
-        app:itemTextColor="@color/textDark"
-        app:itemIconTint="@color/secondary"
-        app:menu="@menu/menu"/>
+        android:elevation="10dp"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_menu"/>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+</LinearLayout>

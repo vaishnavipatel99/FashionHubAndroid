@@ -3,9 +3,12 @@
     import com.example.fashionhubapp.model.CartRequest
     import com.example.fashionhubapp.model.Category
     import com.example.fashionhubapp.model.CategoryRequest
+    import com.example.fashionhubapp.model.CouponResponse
     import com.example.fashionhubapp.model.LoginRequest
     import com.example.fashionhubapp.model.LoginResponse
+    import com.example.fashionhubapp.model.Order
     import com.example.fashionhubapp.model.OrderItemRequest
+    import com.example.fashionhubapp.model.OrderItemResponse
     import com.example.fashionhubapp.model.OrderRequest
     import com.example.fashionhubapp.model.OrderResponse
     import com.example.fashionhubapp.model.PaymentRequest
@@ -98,4 +101,14 @@
         fun createPayment(
             @Body payment: PaymentRequest
         ): Call<Any>
+        @GET("Orders")
+        fun getOrders(): Call<List<Order>>
+
+        @GET("Coupons")
+        fun getCoupons():
+                Call<List<CouponResponse>>
+        @GET("OrderItems/order/{oid}")
+        fun getOrderItems(
+            @Path("oid") oid: Int
+        ): Call<List<OrderItemResponse>>
     }

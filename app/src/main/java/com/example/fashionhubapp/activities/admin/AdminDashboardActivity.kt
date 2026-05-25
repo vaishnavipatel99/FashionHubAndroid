@@ -1,11 +1,17 @@
-package com.example.fashionhubapp
+package com.example.fashionhubapp.activities.admin
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.widget.*
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fashionhubapp.R
+import com.example.fashionhubapp.adapters.CategoryAdapter
 import com.example.fashionhubapp.api.RetrofitClient
 import com.example.fashionhubapp.model.Category
 import com.example.fashionhubapp.model.CategoryRequest

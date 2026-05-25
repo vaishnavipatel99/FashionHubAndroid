@@ -7,6 +7,7 @@
         val sizeSelected: String,
         var quantity: Int,
         val colorSelected: String,
+        val selectedImage: String,
         val addedAt: String?
     )
 

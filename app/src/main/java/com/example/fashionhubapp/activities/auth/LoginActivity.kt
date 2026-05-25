@@ -1,11 +1,16 @@
-package com.example.fashionhubapp
+package com.example.fashionhubapp.activities.auth
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fashionhubapp.R
+import com.example.fashionhubapp.activities.admin.AdminDashboardActivity
+import com.example.fashionhubapp.activities.auth.RegisterActivity
+import com.example.fashionhubapp.activities.user.UserDashboardActivity
 import com.example.fashionhubapp.api.RetrofitClient
 import com.example.fashionhubapp.model.LoginRequest
 import com.example.fashionhubapp.model.LoginResponse
@@ -18,11 +23,12 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var email: EditText
     private lateinit var password: EditText
     private lateinit var loginBtn: Button
-    private lateinit var goRegister: Button
+    private lateinit var goRegister: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_login)
 
         // =========================
@@ -38,14 +44,14 @@ class LoginActivity : AppCompatActivity() {
         val api = RetrofitClient.instance
 
         // =========================
-        // REGISTER PAGE
+        // GO TO REGISTER
         // =========================
 
         goRegister.setOnClickListener {
 
             startActivity(
                 Intent(
-                    this,
+                    this@LoginActivity,
                     RegisterActivity::class.java
                 )
             )
@@ -57,11 +63,50 @@ class LoginActivity : AppCompatActivity() {
 
         loginBtn.setOnClickListener {
 
-            val request =
-                LoginRequest(
-                    email.text.toString(),
-                    password.text.toString()
-                )
+            // =========================
+            // GET VALUES
+            // =========================
+
+            val userEmail =
+                email.text.toString().trim()
+
+            val userPassword =
+                password.text.toString().trim()
+
+            // =========================
+            // VALIDATION
+            // =========================
+
+            if (userEmail.isEmpty()) {
+
+                email.error = "Enter Email"
+
+                email.requestFocus()
+
+                return@setOnClickListener
+            }
+
+            if (userPassword.isEmpty()) {
+
+                password.error = "Enter Password"
+
+                password.requestFocus()
+
+                return@setOnClickListener
+            }
+
+            // =========================
+            // LOGIN REQUEST
+            // =========================
+
+            val request = LoginRequest(
+                userEmail,
+                userPassword
+            )
+
+            // =========================
+            // API CALL
+            // =========================
 
             api.login(request)
                 .enqueue(object : Callback<LoginResponse> {
@@ -71,7 +116,8 @@ class LoginActivity : AppCompatActivity() {
                         response: Response<LoginResponse>
                     ) {
 
-                        if (response.isSuccessful &&
+                        if (
+                            response.isSuccessful &&
                             response.body() != null
                         ) {
 
@@ -108,7 +154,7 @@ class LoginActivity : AppCompatActivity() {
 
                             Toast.makeText(
                                 this@LoginActivity,
-                                "Login Success",
+                                "Login Successful",
                                 Toast.LENGTH_SHORT
                             ).show()
 
@@ -141,7 +187,7 @@ class LoginActivity : AppCompatActivity() {
 
                             Toast.makeText(
                                 this@LoginActivity,
-                                "Invalid Login",
+                                "Invalid Email or Password",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -154,8 +200,8 @@ class LoginActivity : AppCompatActivity() {
 
                         Toast.makeText(
                             this@LoginActivity,
-                            t.message,
-                            Toast.LENGTH_SHORT
+                            "Error: ${t.message}",
+                            Toast.LENGTH_LONG
                         ).show()
                     }
                 })

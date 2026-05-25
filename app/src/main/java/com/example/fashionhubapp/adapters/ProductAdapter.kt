@@ -1,4 +1,4 @@
-package com.example.fashionhubapp
+package com.example.fashionhubapp.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.fashionhubapp.R
+import com.example.fashionhubapp.activities.user.ProductDetailActivity
 import com.example.fashionhubapp.model.Product
 
 class ProductAdapter(
@@ -76,6 +78,7 @@ class ProductAdapter(
             intent.putExtra("stock", product.stock.toString())
             intent.putExtra("image", imageName)
 
+            intent.putExtra("productImages", product.productImages)
             context.startActivity(intent)
         }
     }

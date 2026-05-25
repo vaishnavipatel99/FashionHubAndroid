@@ -1,27 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F6F7FB">
 
-    <TextView
-        android:id="@+id/txtAmount"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <!-- ================= HEADER ================= -->
 
-    <Spinner
-        android:id="@+id/spinnerPayment"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
+        android:layout_height="65dp"
+        android:background="@color/white"
+        android:elevation="4dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-    <Button
-        android:id="@+id/btnPay"
-        android:text="Pay Now"
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/textDark"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <!-- ================= CONTENT ================= -->
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- TITLE -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Complete Payment"
+                android:textStyle="bold"
+                android:textSize="28sp"
+                android:textColor="@color/textDark"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose payment method"
+                android:textSize="15sp"
+                android:textColor="#777777"
+                android:layout_marginTop="5dp"/>
+
+            <!-- AMOUNT CARD -->
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Amount"
+                        android:textColor="#777777"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:id="@+id/txtAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹0"
+                        android:textColor="@color/secondary"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- PAYMENT METHOD -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Method"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textColor="@color/textDark"
+                android:layout_marginTop="25dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerPayment"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit"/>
+
+            <!-- CARD LAYOUT -->
+
+            <LinearLayout
+                android:id="@+id/layoutCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edtCardNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/edit"
+                    android:hint="Card Number"
+                    android:inputType="number"
+                    android:padding="15dp"
+                    android:textColor="@color/textDark"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtExpiry"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/edit"
+                        android:hint="MM/YY"
+                        android:padding="15dp"/>
+
+                    <EditText
+                        android:id="@+id/edtCvv"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/edit"
+                        android:hint="CVV"
+                        android:inputType="numberPassword"
+                        android:padding="15dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- UPI -->
+
+            <LinearLayout
+                android:id="@+id/layoutUpi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edtUpi"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/edit"
+                    android:hint="Enter UPI ID"
+                    android:padding="15dp"/>
+            </LinearLayout>
+
+            <!-- PAY BUTTON -->
+
+            <Button
+                android:id="@+id/btnPay"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="35dp"
+                android:text="Pay Now"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/secondary"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/white"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_menu"/>
+
 </LinearLayout>
