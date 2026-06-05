@@ -5,10 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="12dp"
-    android:layout_marginEnd="12dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
+    android:layout_margin="10dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="3dp">
 
@@ -18,16 +15,12 @@
         android:orientation="horizontal"
         android:padding="14dp">
 
-        <!-- PRODUCT IMAGE -->
-
         <ImageView
             android:id="@+id/cartImage"
             android:layout_width="110dp"
             android:layout_height="120dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"/>
-
-        <!-- RIGHT SIDE -->
+            android:src="@drawable/fashionlogo"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -35,8 +28,6 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:paddingStart="14dp">
-
-            <!-- NAME -->
 
             <TextView
                 android:id="@+id/txtName"
@@ -46,8 +37,6 @@
                 android:textColor="#111111"
                 android:textSize="17sp"
                 android:textStyle="bold"/>
-
-            <!-- PRICE -->
 
             <TextView
                 android:id="@+id/txtPrice"
@@ -59,8 +48,6 @@
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
-            <!-- SIZE COLOR -->
-
             <TextView
                 android:id="@+id/txtSizeColor"
                 android:layout_width="wrap_content"
@@ -69,8 +56,6 @@
                 android:text="Size : M | Color : Black"
                 android:textColor="#666666"
                 android:textSize="14sp"/>
-
-            <!-- TOTAL -->
 
             <TextView
                 android:id="@+id/txtTotal"
@@ -82,33 +67,24 @@
                 android:textSize="14sp"
                 android:textStyle="bold"/>
 
-            <!-- QUANTITY -->
-
-            <!-- QUANTITY -->
+            <!-- QTY -->
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#F5F5F5"
-                android:padding="4dp">
-
-                <!-- MINUS -->
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/btnMinus"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
+                    android:background="#E91E63"
                     android:gravity="center"
                     android:text="-"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:background="@drawable/badge_bg"/>
-
-                <!-- QTY -->
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/txtQty"
@@ -120,22 +96,18 @@
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
-                <!-- PLUS -->
-
                 <TextView
                     android:id="@+id/btnPlus"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
+                    android:background="#E91E63"
                     android:gravity="center"
                     android:text="+"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:background="@drawable/badge_bg"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
-
-            <!-- REMOVE -->
 
             <Button
                 android:id="@+id/btnRemove"

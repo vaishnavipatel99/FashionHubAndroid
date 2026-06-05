@@ -79,7 +79,7 @@
                         android:layout_height="match_parent"
                         android:padding="10dp"
                         android:src="@android:drawable/ic_input_add"
-                        android:tint="#FFFFFF"/>
+                 />
 
                 </androidx.cardview.widget.CardView>
 

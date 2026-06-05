@@ -65,6 +65,7 @@ class CartActivity : AppCompatActivity(),
         // =========================
 
         btnBack.setOnClickListener {
+
             finish()
         }
 
@@ -108,7 +109,10 @@ class CartActivity : AppCompatActivity(),
                     true
                 }
 
-                R.id.nav_cart -> true
+                R.id.nav_cart -> {
+
+                    true
+                }
 
                 R.id.nav_orders -> {
 
@@ -161,13 +165,13 @@ class CartActivity : AppCompatActivity(),
         }
 
         // =========================
-        // LOAD PRODUCTS
+        // LOAD DATA
         // =========================
 
         loadProducts()
 
         // =========================
-        // CHECKOUT BUTTON
+        // CHECKOUT
         // =========================
 
         btnCheckout.setOnClickListener {
@@ -231,7 +235,10 @@ class CartActivity : AppCompatActivity(),
 
                         for (product in response.body()!!) {
 
-                            productMap[product.pid] =
+                            val pid =
+                                product.pid ?: 0
+
+                            productMap[pid] =
                                 product
                         }
 
@@ -296,10 +303,10 @@ class CartActivity : AppCompatActivity(),
                         list.clear()
 
                         val userCart =
-                            response.body()!!
-                                .filter {
-                                    it.uid == uid
-                                }
+                            response.body()!!.filter {
+
+                                (it.uid ?: 0) == uid
+                            }
 
                         list.addAll(userCart)
 
@@ -347,8 +354,11 @@ class CartActivity : AppCompatActivity(),
 
         for (item in list) {
 
+            val pid =
+                item.pid ?: 0
+
             val product =
-                productMap[item.pid]
+                productMap[pid]
 
             if (product != null) {
 

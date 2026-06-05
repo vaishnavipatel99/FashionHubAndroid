@@ -13,9 +13,9 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="76dp"
         android:background="@color/white"
-        android:elevation="2dp">
+        android:elevation="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,52 +23,86 @@
             android:paddingStart="18dp"
             android:paddingEnd="18dp">
 
-            <!-- APP NAME -->
+            <!-- LOGO -->
 
-            <TextView
-                android:id="@+id/txtLogo"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FashionHub"
-                android:textStyle="bold"
-                android:textSize="26sp"
-                android:textColor="@color/textDark"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/fashionlogo"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtLogo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FashionHub"
+                        android:textColor="@color/textDark"
+                        android:textSize="22sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Style Your Life"
+                        android:textColor="@color/textLight"
+                        android:textSize="11sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <!-- CART -->
 
             <FrameLayout
                 android:id="@+id/cartLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="true"
+                android:background="@drawable/white_card_bg"
+                android:padding="12dp">
 
                 <ImageView
                     android:id="@+id/imgCart"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/cart"/>
 
                 <!-- BADGE -->
 
                 <TextView
                     android:id="@+id/txtCartBadge"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="end"
                     android:background="@drawable/badge_bg"
                     android:gravity="center"
                     android:text="2"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"/>
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    android:textStyle="bold"/>
+
             </FrameLayout>
 
         </RelativeLayout>
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- ================= MAIN CONTENT ================= -->
+    <!-- ================= BODY ================= -->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -82,7 +116,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- USER INFO -->
+            <!-- USER -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,9 +137,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Vaishnavi"
-                    android:textStyle="bold"
+                    android:textColor="@color/textDark"
                     android:textSize="30sp"
-                    android:textColor="@color/textDark"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -117,7 +151,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 app:cardCornerRadius="18dp"
-                app:cardElevation="2dp">
+                app:cardElevation="1dp"
+                app:strokeColor="#EEEEEE"
+                app:strokeWidth="1dp">
 
                 <EditText
                     android:id="@+id/etSearch"
@@ -126,16 +162,18 @@
                     android:background="@android:color/transparent"
                     android:drawableStart="@android:drawable/ic_menu_search"
                     android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
                     android:hint="Search fashion..."
                     android:paddingStart="18dp"
                     android:paddingEnd="18dp"
+                    android:singleLine="true"
                     android:textColor="@color/textDark"
                     android:textColorHint="@color/textLight"
                     android:textSize="15sp"/>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- BANNER -->
+            <!-- ================= BANNER ================= -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -149,51 +187,78 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
+                    android:background="@drawable/banner_bg"
                     android:gravity="center_vertical"
-                    android:padding="28dp"
-                    android:background="@color/secondary">
+                    android:orientation="vertical"
+                    android:padding="28dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NEW COLLECTION"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="14sp"/>
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:text="Summer Sale"
-                        android:textStyle="bold"
+                        android:textColor="@android:color/white"
                         android:textSize="34sp"
-                        android:textColor="@color/white"/>
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="UP TO 50% OFF"
-                        android:textSize="18sp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"/>
+
+                    <Button
+                        android:layout_width="130dp"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="18dp"
+                        android:background="@drawable/primary_button"
+                        android:text="Shop Now"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- CATEGORY TITLE -->
+            <!-- ================= CATEGORY TITLE ================= -->
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
+                android:gravity="center_vertical"
                 android:paddingStart="20dp"
-                android:text="Categories"
-                android:textStyle="bold"
-                android:textSize="22sp"
-                android:textColor="@color/textDark"/>
+                android:paddingEnd="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Categories"
+                    android:textColor="@color/textDark"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="See All"
+                    android:textColor="@color/secondary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
 
             <!-- CATEGORY LIST -->
 
@@ -201,31 +266,49 @@
                 android:id="@+id/recyclerCategories"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:nestedScrollingEnabled="false"
                 android:paddingStart="12dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="12dp"
-                android:nestedScrollingEnabled="false"/>
+                android:paddingTop="12dp"
+                android:paddingEnd="12dp"/>
 
-            <!-- PRODUCT TITLE -->
+            <!-- ================= PRODUCT TITLE ================= -->
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
                 android:paddingStart="20dp"
-                android:text="Trending Products"
-                android:textStyle="bold"
-                android:textSize="22sp"
-                android:textColor="@color/textDark"/>
+                android:paddingEnd="20dp">
 
-            <!-- PRODUCT LIST -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Trending Products"
+                    android:textColor="@color/textDark"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View All"
+                    android:textColor="@color/secondary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <!-- PRODUCTS -->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerProducts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
                 android:nestedScrollingEnabled="false"
+                android:padding="12dp"
+                android:paddingBottom="90dp"
                 tools:listitem="@layout/item_product"/>
 
         </LinearLayout>
@@ -238,8 +321,9 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/white"
+        android:background="@android:color/white"
         android:elevation="10dp"
+        app:itemIconSize="24dp"
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/bottom_nav_color"
         app:labelVisibilityMode="labeled"

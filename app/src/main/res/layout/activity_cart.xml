@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="#F6F7FB">
 
-    <!-- ================= HEADER ================= -->
+    <!-- HEADER -->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,15 +18,12 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 
-        <!-- BACK -->
-
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_centerVertical="true" />
-
-        <!-- TITLE -->
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_media_previous"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,17 +36,16 @@
 
     </RelativeLayout>
 
-    <!-- ================= CART LIST ================= -->
+    <!-- RECYCLER -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cartRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingTop="8dp"
-        android:clipToPadding="false"/>
+        android:paddingTop="8dp"/>
 
-    <!-- EMPTY TEXT -->
+    <!-- EMPTY -->
 
     <TextView
         android:id="@+id/txtEmpty"
@@ -62,17 +58,14 @@
         android:padding="24dp"
         android:visibility="gone"/>
 
-    <!-- ================= BOTTOM CHECKOUT ================= -->
+    <!-- BOTTOM -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:elevation="10dp">
-
-        <!-- TOTAL -->
+        android:background="#FFFFFF"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -91,15 +84,12 @@
                 android:id="@+id/txtGrandTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:text="₹ 0"
                 android:textColor="#E91E63"
                 android:textSize="24sp"
                 android:textStyle="bold"/>
 
         </LinearLayout>
-
-        <!-- CHECKOUT BUTTON -->
 
         <Button
             android:id="@+id/btnCheckout"
@@ -108,13 +98,12 @@
             android:text="Checkout"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
             android:textStyle="bold"
             android:backgroundTint="#E91E63"/>
 
     </LinearLayout>
 
-    <!-- ================= BOTTOM NAVIGATION ================= -->
+    <!-- BOTTOM NAV -->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"

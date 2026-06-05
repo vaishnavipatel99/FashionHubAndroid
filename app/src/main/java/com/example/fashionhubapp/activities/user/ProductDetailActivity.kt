@@ -29,14 +29,10 @@ import retrofit2.Response
 class ProductDetailActivity : AppCompatActivity() {
 
     private lateinit var mainImage: ImageView
-
     private lateinit var recyclerImages: RecyclerView
     private lateinit var recyclerColors: RecyclerView
-
     private lateinit var sizeContainer: LinearLayout
-
     private lateinit var detailColor: TextView
-
     private lateinit var bottomNavigation: BottomNavigationView
 
     private var selectedColor = ""
@@ -48,102 +44,48 @@ class ProductDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_product_detail)
 
-        // =========================
-        // IDS
-        // =========================
+        // ================= IDS =================
 
-        mainImage =
-            findViewById(R.id.detailImage)
+        mainImage = findViewById(R.id.detailImage)
+        recyclerImages = findViewById(R.id.recyclerImages)
+        recyclerColors = findViewById(R.id.recyclerColors)
+        sizeContainer = findViewById(R.id.sizeContainer)
+        detailColor = findViewById(R.id.detailColor)
+        bottomNavigation = findViewById(R.id.bottomNavigation)
 
-        recyclerImages =
-            findViewById(R.id.recyclerImages)
+        val detailName = findViewById<TextView>(R.id.detailName)
+        val detailPrice = findViewById<TextView>(R.id.detailPrice)
+        val detailDescription = findViewById<TextView>(R.id.detailDescription)
+        val detailFabric = findViewById<TextView>(R.id.detailFabric)
+        val detailStock = findViewById<TextView>(R.id.detailStock)
 
-        recyclerColors =
-            findViewById(R.id.recyclerColors)
+        val addToCartBtn = findViewById<Button>(R.id.btnAddToCart)
 
-        sizeContainer =
-            findViewById(R.id.sizeContainer)
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
+        val btnCart = findViewById<ImageView>(R.id.btnCart)
 
-        detailColor =
-            findViewById(R.id.detailColor)
-
-        bottomNavigation =
-            findViewById(R.id.bottomNavigation)
-
-        val detailName =
-            findViewById<TextView>(R.id.detailName)
-
-        val detailPrice =
-            findViewById<TextView>(R.id.detailPrice)
-
-        val detailDescription =
-            findViewById<TextView>(R.id.detailDescription)
-
-        val detailFabric =
-            findViewById<TextView>(R.id.detailFabric)
-
-        val detailStock =
-            findViewById<TextView>(R.id.detailStock)
-
-        val addToCartBtn =
-            findViewById<Button>(R.id.btnAddToCart)
-
-        val btnBack =
-            findViewById<ImageView>(R.id.btnBack)
-
-        val btnCart =
-            findViewById<ImageView>(R.id.btnCart)
-
-        // =========================
-        // BACK BUTTON
-        // =========================
+        // ================= BUTTONS =================
 
         btnBack.setOnClickListener {
-
             finish()
         }
 
-        // =========================
-        // CART BUTTON
-        // =========================
-
         btnCart.setOnClickListener {
-
-            startActivity(
-                Intent(
-                    this,
-                    CartActivity::class.java
-                )
-            )
+            startActivity(Intent(this, CartActivity::class.java))
         }
 
-        // =========================
-        // GET DATA
-        // =========================
+        // ================= GET DATA =================
 
-        val pid =
-            intent.getIntExtra("pid", 0)
+        val pid = intent.getIntExtra("pid", 0)
 
-        val productName =
-            intent.getStringExtra("name") ?: ""
-
-        val productPrice =
-            intent.getStringExtra("price") ?: ""
-
-        val description =
-            intent.getStringExtra("description") ?: ""
-
-        val fabric =
-            intent.getStringExtra("fabric") ?: ""
-
-        val stock =
-            intent.getStringExtra("stock") ?: ""
-
-        val sizeString =
-            intent.getStringExtra("size") ?: ""
+        val productName = intent.getStringExtra("name") ?: ""
+        val productPrice = intent.getStringExtra("price") ?: ""
+        val description = intent.getStringExtra("description") ?: ""
+        val fabric = intent.getStringExtra("fabric") ?: ""
+        val stock = intent.getStringExtra("stock") ?: ""
+        val sizeString = intent.getStringExtra("size") ?: ""
 
         val imageName =
             intent.getStringExtra("image")
@@ -153,9 +95,7 @@ class ProductDetailActivity : AppCompatActivity() {
         val imageUrl =
             "http://10.0.2.2:5041/images/$imageName"
 
-        // =========================
-        // PRODUCT IMAGES JSON
-        // =========================
+        // ================= PRODUCT IMAGES =================
 
         val json =
             intent.getStringExtra("productImages") ?: ""
@@ -176,44 +116,31 @@ class ProductDetailActivity : AppCompatActivity() {
                 )
             }
 
-        // =========================
-        // DEFAULT IMAGE
-        // =========================
+        // ================= DEFAULT IMAGE =================
 
         selectedImage = imageName
 
         Glide.with(this)
             .load(imageUrl)
-            .placeholder(R.drawable.ic_launcher_background)
-            .error(R.drawable.ic_launcher_background)
+            .placeholder(R.drawable.fashionlogo)
+            .error(R.drawable.fashionlogo)
             .into(mainImage)
 
-        // =========================
-        // PRODUCT INFO
-        // =========================
+        // ================= PRODUCT INFO =================
 
         detailName.text = productName
-
         detailPrice.text = "₹ $productPrice"
-
         detailDescription.text = description
-
         detailFabric.text = "Fabric : $fabric"
-
         detailStock.text = "In Stock : $stock"
 
-        // =========================
-        // SIZE
-        // =========================
+        // ================= SIZE =================
 
-        val sizes =
-            sizeString.split(",")
+        val sizes = sizeString.split(",")
 
         createSizeButtons(sizes)
 
-        // =========================
-        // COLOR RECYCLER
-        // =========================
+        // ================= COLOR LIST =================
 
         recyclerColors.layoutManager =
             LinearLayoutManager(
@@ -239,8 +166,7 @@ class ProductDetailActivity : AppCompatActivity() {
                 this
             ) { colorName ->
 
-                selectedColor =
-                    colorName
+                selectedColor = colorName
 
                 detailColor.text =
                     "Selected Color : $selectedColor"
@@ -263,15 +189,13 @@ class ProductDetailActivity : AppCompatActivity() {
 
                     Glide.with(this)
                         .load(newUrl)
-                        .placeholder(R.drawable.ic_launcher_background)
-                        .error(R.drawable.ic_launcher_background)
+                        .placeholder(R.drawable.fashionlogo)
+                        .error(R.drawable.fashionlogo)
                         .into(mainImage)
                 }
             }
 
-        // =========================
-        // IMAGE GALLERY
-        // =========================
+        // ================= IMAGE GALLERY =================
 
         recyclerImages.layoutManager =
             LinearLayoutManager(
@@ -282,9 +206,7 @@ class ProductDetailActivity : AppCompatActivity() {
 
         if (productImages.gallery.isNotEmpty()) {
 
-            updateGallery(
-                productImages.gallery
-            )
+            updateGallery(productImages.gallery)
 
         } else {
 
@@ -293,9 +215,7 @@ class ProductDetailActivity : AppCompatActivity() {
             )
         }
 
-        // =========================
-        // ADD TO CART
-        // =========================
+        // ================= ADD TO CART =================
 
         addToCartBtn.setOnClickListener {
 
@@ -389,9 +309,7 @@ class ProductDetailActivity : AppCompatActivity() {
                 })
         }
 
-        // =========================
-        // BOTTOM NAVIGATION
-        // =========================
+        // ================= BOTTOM NAVIGATION =================
 
         bottomNavigation.selectedItemId =
             R.id.nav_home
@@ -409,6 +327,7 @@ class ProductDetailActivity : AppCompatActivity() {
                         )
                     )
 
+                    finish()
                     true
                 }
 
@@ -474,25 +393,21 @@ class ProductDetailActivity : AppCompatActivity() {
             }
         }
 
-        // =========================
-        // BACK PRESS
-        // =========================
+        // ================= BACK PRESS =================
 
         onBackPressedDispatcher.addCallback(
             this,
-
             object : OnBackPressedCallback(true) {
 
                 override fun handleOnBackPressed() {
 
                     finish()
                 }
-            })
+            }
+        )
     }
 
-    // =========================
-    // UPDATE IMAGE GALLERY
-    // =========================
+    // ================= UPDATE GALLERY =================
 
     private fun updateGallery(
         images: List<String>
@@ -514,15 +429,13 @@ class ProductDetailActivity : AppCompatActivity() {
 
                 Glide.with(this)
                     .load(imageUrl)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.fashionlogo)
+                    .error(R.drawable.fashionlogo)
                     .into(mainImage)
             }
     }
 
-    // =========================
-    // SIZE BUTTONS
-    // =========================
+    // ================= SIZE BUTTONS =================
 
     private fun createSizeButtons(
         sizes: List<String>
@@ -551,14 +464,11 @@ class ProductDetailActivity : AppCompatActivity() {
                 12
             )
 
-            textView.layoutParams =
-                params
+            textView.layoutParams = params
 
-            textView.text =
-                size.trim()
+            textView.text = size.trim()
 
-            textView.textSize =
-                15f
+            textView.textSize = 15f
 
             textView.setPadding(
                 45,
@@ -568,37 +478,30 @@ class ProductDetailActivity : AppCompatActivity() {
             )
 
             textView.background =
-                getDrawable(
-                    R.drawable.size_unselected
-                )
+                getDrawable(R.drawable.size_unselected)
 
             textView.setTextColor(
-                getColor(R.color.black)
+                getColor(R.color.white)
             )
 
             sizeViews.add(textView)
 
             textView.setOnClickListener {
 
-                selectedSize =
-                    size.trim()
+                selectedSize = size.trim()
 
                 for (view in sizeViews) {
 
                     view.background =
-                        getDrawable(
-                            R.drawable.size_unselected
-                        )
+                        getDrawable(R.drawable.size_unselected)
 
                     view.setTextColor(
-                        getColor(R.color.black)
+                        getColor(R.color.white)
                     )
                 }
 
                 textView.background =
-                    getDrawable(
-                        R.drawable.size_selected
-                    )
+                    getDrawable(R.drawable.size_selected)
 
                 textView.setTextColor(
                     getColor(R.color.white)
@@ -609,7 +512,6 @@ class ProductDetailActivity : AppCompatActivity() {
         }
 
         if (sizeViews.isNotEmpty()) {
-
             sizeViews[0].performClick()
         }
     }
