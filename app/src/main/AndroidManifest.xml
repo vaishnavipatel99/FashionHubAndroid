@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,64 +11,46 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FashionHubApp"
         android:usesCleartextTraffic="true">
-
         <!-- SPLASH -->
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
-
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-        </activity>
-
-        <!-- LOGIN -->
+        </activity> <!-- LOGIN -->
         <activity
             android:name=".activities.auth.LoginActivity"
-            android:exported="false"/>
-
-        <!-- REGISTER -->
+            android:exported="false" /> <!-- REGISTER -->
         <activity
             android:name=".activities.auth.RegisterActivity"
-            android:exported="false"/>
-
-        <!-- USER -->
+            android:exported="false" /> <!-- USER -->
         <activity
             android:name=".activities.user.UserDashboardActivity"
-            android:exported="false"/>
-
-        <!-- ADMIN -->
+            android:exported="false" /> <!-- ADMIN -->
         <activity
             android:name=".activities.admin.AdminDashboardActivity"
-            android:exported="false"/>
-
-        <!-- OTHER -->
+            android:exported="false" /> <!-- OTHER -->
         <activity
             android:name=".activities.user.ProductDetailActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".activities.user.CartActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".activities.user.CheckoutActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".activities.user.PaymentActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".activities.user.ProfileActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".activities.user.OrdersActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
     </application>
 
 </manifest>

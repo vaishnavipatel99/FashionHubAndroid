@@ -53,9 +53,9 @@ class CheckoutActivity : AppCompatActivity() {
         txtDiscount = findViewById(R.id.txtDiscount)
         recyclerCoupons = findViewById(R.id.recyclerCoupons)
 
-        val btnBack = findViewById<ImageView>(R.id.btnBack)
+//        val btnBack = findViewById<ImageView>(R.id.btnBack)
 
-        btnBack.setOnClickListener { finish() }
+//        btnBack.setOnClickListener { finish() }
 
         totalAmount = intent.getDoubleExtra("TOTAL", 0.0)
         finalAmount = totalAmount

@@ -2,6 +2,7 @@ package com.example.fashionhubapp.activities.user
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -25,7 +26,8 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import com.example.fashionhubapp.adapters.ReviewAdapter
+import com.example.fashionhubapp.model.ReviewResponse
 class ProductDetailActivity : AppCompatActivity() {
 
     private lateinit var mainImage: ImageView
@@ -40,6 +42,9 @@ class ProductDetailActivity : AppCompatActivity() {
     private var selectedImage = ""
 
     private lateinit var productImages: ProductImages
+    private lateinit var recyclerReviews: RecyclerView
+    private lateinit var txtReviewTitle: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -54,6 +59,14 @@ class ProductDetailActivity : AppCompatActivity() {
         sizeContainer = findViewById(R.id.sizeContainer)
         detailColor = findViewById(R.id.detailColor)
         bottomNavigation = findViewById(R.id.bottomNavigation)
+        recyclerReviews =
+            findViewById(R.id.recyclerReviews)
+
+        recyclerReviews.layoutManager =
+            LinearLayoutManager(this)
+        txtReviewTitle =
+            findViewById(R.id.txtReviewTitle)
+
 
         val detailName = findViewById<TextView>(R.id.detailName)
         val detailPrice = findViewById<TextView>(R.id.detailPrice)
@@ -62,19 +75,6 @@ class ProductDetailActivity : AppCompatActivity() {
         val detailStock = findViewById<TextView>(R.id.detailStock)
 
         val addToCartBtn = findViewById<Button>(R.id.btnAddToCart)
-
-        val btnBack = findViewById<ImageView>(R.id.btnBack)
-        val btnCart = findViewById<ImageView>(R.id.btnCart)
-
-        // ================= BUTTONS =================
-
-        btnBack.setOnClickListener {
-            finish()
-        }
-
-        btnCart.setOnClickListener {
-            startActivity(Intent(this, CartActivity::class.java))
-        }
 
         // ================= GET DATA =================
 
@@ -133,6 +133,7 @@ class ProductDetailActivity : AppCompatActivity() {
         detailDescription.text = description
         detailFabric.text = "Fabric : $fabric"
         detailStock.text = "In Stock : $stock"
+        loadReviews(pid)
 
         // ================= SIZE =================
 
@@ -476,12 +477,11 @@ class ProductDetailActivity : AppCompatActivity() {
                 45,
                 24
             )
-
             textView.background =
                 getDrawable(R.drawable.size_unselected)
 
             textView.setTextColor(
-                getColor(R.color.white)
+                getColor(R.color.textDark)
             )
 
             sizeViews.add(textView)
@@ -496,7 +496,7 @@ class ProductDetailActivity : AppCompatActivity() {
                         getDrawable(R.drawable.size_unselected)
 
                     view.setTextColor(
-                        getColor(R.color.white)
+                        getColor(R.color.textDark)
                     )
                 }
 
@@ -515,4 +515,59 @@ class ProductDetailActivity : AppCompatActivity() {
             sizeViews[0].performClick()
         }
     }
+    private fun loadReviews(pid: Int) {
+
+        RetrofitClient.instance
+            .getReviewsByProduct(pid)
+            .enqueue(object : Callback<List<ReviewResponse>> {
+
+                override fun onResponse(
+                    call: Call<List<ReviewResponse>>,
+                    response: Response<List<ReviewResponse>>
+                ) {
+
+                    if (
+                        response.isSuccessful &&
+                        response.body() != null
+                    ) {
+
+                        val reviews =
+                            response.body()!!
+
+                        if (reviews.isNotEmpty()) {
+
+                            txtReviewTitle.visibility =
+                                View.VISIBLE
+
+                            recyclerReviews.visibility =
+                                View.VISIBLE
+
+                            recyclerReviews.adapter =
+                                ReviewAdapter(reviews)
+
+                        } else {
+
+                            txtReviewTitle.visibility =
+                                View.GONE
+
+                            recyclerReviews.visibility =
+                                View.GONE
+                        }
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<List<ReviewResponse>>,
+                    t: Throwable
+                ) {
+
+                    txtReviewTitle.visibility =
+                        View.GONE
+
+                    recyclerReviews.visibility =
+                        View.GONE
+                }
+            })
+    }
+
 }

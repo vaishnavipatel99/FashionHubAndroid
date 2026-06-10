@@ -73,8 +73,8 @@ class ProfileActivity : AppCompatActivity() {
         bottomNavigation =
             findViewById(R.id.bottomNavigation)
 
-        val btnBack =
-            findViewById<ImageView>(R.id.btnBack)
+//        val btnBack =
+//            findViewById<ImageView>(R.id.btnBack)
 
         // =========================
         // GET USER ID
@@ -93,10 +93,10 @@ class ProfileActivity : AppCompatActivity() {
         // BACK BUTTON
         // =========================
 
-        btnBack.setOnClickListener {
-
-            finish()
-        }
+//        btnBack.setOnClickListener {
+//
+//            finish()
+//        }
 
         // =========================
         // LOAD PROFILE

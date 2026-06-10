@@ -7,12 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fashionhubapp.R
 import com.example.fashionhubapp.model.OrderItemResponse
+import com.google.android.material.button.MaterialButton
 
 class OrderItemsAdapter(
-    private val list: List<OrderItemResponse>
+    private val list: List<OrderItemResponse>,
+    private val onReviewClick: (OrderItemResponse) -> Unit
 ) : RecyclerView.Adapter<OrderItemsAdapter.VH>() {
 
-    // ================= VIEW HOLDER =================
     class VH(view: View) : RecyclerView.ViewHolder(view) {
 
         val name: TextView = view.findViewById(R.id.txtName)
@@ -20,9 +21,10 @@ class OrderItemsAdapter(
         val size: TextView = view.findViewById(R.id.txtSize)
         val color: TextView = view.findViewById(R.id.txtColor)
         val price: TextView = view.findViewById(R.id.txtPrice)
+        val btnReview: MaterialButton =
+            view.findViewById(R.id.btnReview)
     }
 
-    // ================= CREATE VIEW =================
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -34,7 +36,6 @@ class OrderItemsAdapter(
         return VH(view)
     }
 
-    // ================= BIND DATA =================
     override fun onBindViewHolder(
         holder: VH,
         position: Int
@@ -47,9 +48,11 @@ class OrderItemsAdapter(
         holder.size.text = "Size: ${item.sizeSelected}"
         holder.color.text = "Color: ${item.colorSelected}"
         holder.price.text = "₹${item.price}"
+        holder.btnReview.setOnClickListener {
+            onReviewClick(item)
+        }
     }
 
-    // ================= SIZE =================
     override fun getItemCount(): Int {
         return list.size
     }

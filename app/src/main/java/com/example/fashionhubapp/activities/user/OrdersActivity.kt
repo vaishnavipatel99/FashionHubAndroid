@@ -4,6 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.EditText
+import android.widget.RatingBar
+import com.example.fashionhubapp.model.ReviewRequest
+import com.google.android.material.button.MaterialButton
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -41,12 +45,12 @@ class OrdersActivity : AppCompatActivity() {
         bottomNavigation = findViewById(R.id.bottomNavigation)
         emptyLayout = findViewById(R.id.emptyLayout)
 
-        val btnMenu = findViewById<ImageView>(R.id.btnMenu)
-
-        // ================= MENU =================
-        btnMenu.setOnClickListener {
-            Toast.makeText(this, "FashionHub Orders", Toast.LENGTH_SHORT).show()
-        }
+//        val btnMenu = findViewById<ImageView>(R.id.btnMenu)
+//
+//        // ================= MENU =================
+//        btnMenu.setOnClickListener {
+//            Toast.makeText(this, "FashionHub Orders", Toast.LENGTH_SHORT).show()
+//        }
 
         // ================= RECYCLER =================
         recyclerOrders.layoutManager = LinearLayoutManager(this)
@@ -158,26 +162,175 @@ class OrdersActivity : AppCompatActivity() {
                 ) {
 
                     if (!response.isSuccessful || response.body() == null) {
-                        Toast.makeText(this@OrdersActivity, "No items found", Toast.LENGTH_SHORT).show()
+
+                        Toast.makeText(
+                            this@OrdersActivity,
+                            "No items found",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
                         return
                     }
 
                     val items = response.body()!!
 
                     val dialog = BottomSheetDialog(this@OrdersActivity)
-                    val view = layoutInflater.inflate(R.layout.bottom_order_items, null)
 
-                    val recycler = view.findViewById<RecyclerView>(R.id.recyclerItems)
+                    val view = layoutInflater.inflate(
+                        R.layout.bottom_order_items,
+                        null
+                    )
 
-                    recycler.layoutManager = LinearLayoutManager(this@OrdersActivity)
-                    recycler.adapter = OrderItemsAdapter(items)
+                    val recycler =
+                        view.findViewById<RecyclerView>(
+                            R.id.recyclerItems
+                        )
+
+                    recycler.layoutManager =
+                        LinearLayoutManager(this@OrdersActivity)
+
+                    recycler.adapter =
+                        OrderItemsAdapter(items) { item ->
+
+                            val reviewDialog =
+                                BottomSheetDialog(this@OrdersActivity)
+
+                            val reviewView =
+                                layoutInflater.inflate(
+                                    R.layout.bottom_review,
+                                    null
+                                )
+
+                            reviewDialog.setContentView(reviewView)
+
+                            val ratingBar =
+                                reviewView.findViewById<RatingBar>(
+                                    R.id.ratingBar
+                                )
+
+                            val edtFeedback =
+                                reviewView.findViewById<EditText>(
+                                    R.id.edtFeedback
+                                )
+
+                            val btnSubmit =
+                                reviewView.findViewById<MaterialButton>(
+                                    R.id.btnSubmitReview
+                                )
+
+                            btnSubmit.setOnClickListener {
+
+                                val rating =
+                                    ratingBar.rating.toInt()
+
+                                val feedback =
+                                    edtFeedback.text
+                                        .toString()
+                                        .trim()
+
+                                if (rating == 0) {
+
+                                    Toast.makeText(
+                                        this@OrdersActivity,
+                                        "Please select rating",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                    return@setOnClickListener
+                                }
+
+                                if (feedback.isEmpty()) {
+
+                                    edtFeedback.error =
+                                        "Please enter feedback"
+
+                                    return@setOnClickListener
+                                }
+
+                                val uid =
+                                    getSharedPreferences(
+                                        "FashionHub",
+                                        MODE_PRIVATE
+                                    ).getInt("uid", 0)
+
+                                val request =
+                                    ReviewRequest(
+                                        pid = item.productId,
+                                        uid = uid,
+                                        oid = item.oid,
+                                        orderItemId = item.orderItemId,
+                                        rating = rating,
+                                        feedback = feedback,
+                                        colorSelected = item.colorSelected,
+                                        sizeSelected = item.sizeSelected
+                                    )
+
+                                btnSubmit.isEnabled = false
+
+                                RetrofitClient.instance
+                                    .addReview(request)
+                                    .enqueue(object : Callback<Any> {
+
+                                        override fun onResponse(
+                                            call: Call<Any>,
+                                            response: Response<Any>
+                                        ) {
+
+                                            btnSubmit.isEnabled = true
+
+                                            if (response.isSuccessful) {
+
+                                                Toast.makeText(
+                                                    this@OrdersActivity,
+                                                    "Review Submitted Successfully",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+
+                                                reviewDialog.dismiss()
+
+                                            } else {
+
+                                                Toast.makeText(
+                                                    this@OrdersActivity,
+                                                    "Review already submitted",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            }
+                                        }
+
+                                        override fun onFailure(
+                                            call: Call<Any>,
+                                            t: Throwable
+                                        ) {
+
+                                            btnSubmit.isEnabled = true
+
+                                            Toast.makeText(
+                                                this@OrdersActivity,
+                                                t.message,
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    })
+                            }
+
+                            reviewDialog.show()
+                        }
 
                     dialog.setContentView(view)
                     dialog.show()
                 }
 
-                override fun onFailure(call: Call<List<OrderItemResponse>>, t: Throwable) {
-                    Toast.makeText(this@OrdersActivity, t.message, Toast.LENGTH_SHORT).show()
+                override fun onFailure(
+                    call: Call<List<OrderItemResponse>>,
+                    t: Throwable
+                ) {
+
+                    Toast.makeText(
+                        this@OrdersActivity,
+                        t.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
     }

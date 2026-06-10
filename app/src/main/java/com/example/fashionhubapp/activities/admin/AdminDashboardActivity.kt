@@ -1,6 +1,7 @@
 package com.example.fashionhubapp.activities.admin
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fashionhubapp.R
+import com.example.fashionhubapp.activities.auth.LoginActivity
 import com.example.fashionhubapp.adapters.CategoryAdapter
 import com.example.fashionhubapp.api.RetrofitClient
 import com.example.fashionhubapp.model.Category
@@ -27,6 +29,8 @@ class AdminDashboardActivity : AppCompatActivity(),
     lateinit var adapter: CategoryAdapter
     var list = mutableListOf<Category>()
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_dashboard)
@@ -34,6 +38,7 @@ class AdminDashboardActivity : AppCompatActivity(),
         recycler = findViewById(R.id.categoryRecycler)
         txtCount = findViewById(R.id.txtCategoryCount)
         val addBtn = findViewById<Button>(R.id.addCategoryBtn)
+        val logoutBtn = findViewById<Button>(R.id.btnLogout)
 
         recycler.layoutManager = LinearLayoutManager(this)
         adapter = CategoryAdapter(list, this)
@@ -44,7 +49,32 @@ class AdminDashboardActivity : AppCompatActivity(),
         addBtn.setOnClickListener {
             openAddCategoryDialog()
         }
+        logoutBtn.setOnClickListener {
+
+            AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes") { _, _ ->
+
+                    getSharedPreferences("FashionHub", MODE_PRIVATE)
+                        .edit()
+                        .clear()
+                        .apply()
+
+                    startActivity(
+                        Intent(
+                            this,
+                            LoginActivity::class.java
+                        )
+                    )
+
+                    finishAffinity()
+                }
+                .setNegativeButton("No", null)
+                .show()
+        }
     }
+
 
     //  LOAD DATA
     private fun loadCategories() {

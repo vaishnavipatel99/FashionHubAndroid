@@ -1,41 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F6F7FB">
+    android:background="#FAFAFA">
 
-    <!-- ================= HEADER ================= -->
+    <!-- HEADER -->
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:background="@color/white"
+        android:layout_height="70dp"
+        android:background="#FFFFFF"
         android:elevation="4dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 
+<!--        <ImageView-->
+<!--            android:id="@+id/btnBack"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:src="@drawable/back"-->
+<!--            android:scaleType="fitCenter"/>-->
+
         <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true" />
+            android:id="@+id/imgLogo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/fashionlogo"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="Payment"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/textDark"
-            android:layout_centerInParent="true"/>
+            android:textColor="#111111"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 
-    <!-- ================= CONTENT ================= -->
+    <!-- BODY -->
+
+    <!-- BOTTOM NAVIGATION -->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -49,55 +60,54 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- TITLE -->
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Complete Payment"
-                android:textStyle="bold"
+                android:textColor="#111111"
                 android:textSize="28sp"
-                android:textColor="@color/textDark"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose payment method"
-                android:textSize="15sp"
+                android:layout_marginTop="5dp"
+                android:text="Choose your preferred payment method"
                 android:textColor="#777777"
-                android:layout_marginTop="5dp"/>
+                android:textSize="15sp" />
 
             <!-- AMOUNT CARD -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:cardCornerRadius="20dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="22dp"
                 app:cardElevation="3dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="24dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total Amount"
                         android:textColor="#777777"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/txtAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:text="₹0"
-                        android:textColor="@color/secondary"
-                        android:textSize="30sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"/>
+                        android:textColor="#E91E63"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -108,20 +118,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:text="Payment Method"
-                android:textStyle="bold"
+                android:textColor="#111111"
                 android:textSize="17sp"
-                android:textColor="@color/textDark"
-                android:layout_marginTop="25dp"/>
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/spinnerPayment"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/edit"/>
+                android:background="@drawable/edit" />
 
-            <!-- CARD LAYOUT -->
+            <!-- CARD SECTION -->
 
             <LinearLayout
                 android:id="@+id/layoutCard"
@@ -137,9 +147,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/edit"
                     android:hint="Card Number"
-                    android:inputType="number"
-                    android:padding="15dp"
-                    android:textColor="@color/textDark"/>
+                    android:padding="15dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -150,28 +158,54 @@
                         android:id="@+id/edtExpiry"
                         android:layout_width="0dp"
                         android:layout_height="55dp"
-                        android:layout_weight="1"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
                         android:background="@drawable/edit"
                         android:hint="MM/YY"
-                        android:padding="15dp"/>
+                        android:padding="15dp" />
 
                     <EditText
                         android:id="@+id/edtCvv"
                         android:layout_width="0dp"
                         android:layout_height="55dp"
+                        android:layout_marginTop="12dp"
                         android:layout_weight="1"
-                        android:layout_marginTop="15dp"
                         android:background="@drawable/edit"
                         android:hint="CVV"
                         android:inputType="numberPassword"
-                        android:padding="15dp"/>
+                        android:padding="15dp" />
+
                 </LinearLayout>
 
             </LinearLayout>
+            <!-- WALLET SECTION -->
 
-            <!-- UPI -->
+            <LinearLayout
+                android:id="@+id/layoutWallet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Select Wallet"
+                    android:textColor="#111111"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerWallet"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edit"/>
+            </LinearLayout>
+
+            <!-- UPI SECTION -->
 
             <LinearLayout
                 android:id="@+id/layoutUpi"
@@ -186,38 +220,40 @@
                     android:layout_height="55dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/edit"
-                    android:hint="Enter UPI ID"
-                    android:padding="15dp"/>
+                    android:hint="example@upi"
+                    android:padding="15dp" />
+
             </LinearLayout>
 
             <!-- PAY BUTTON -->
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPay"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="#E91E63"
                 android:text="Pay Now"
                 android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
                 android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/secondary"/>
+                app:cornerRadius="18dp" />
 
         </LinearLayout>
 
     </ScrollView>
 
-    <!-- ================= BOTTOM NAVIGATION ================= -->
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/white"
+        android:layout_height="113dp"
+        android:background="#FFFFFF"
+        android:elevation="10dp"
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/bottom_nav_color"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_menu"/>
+        app:menu="@menu/bottom_menu" />
 
 </LinearLayout>

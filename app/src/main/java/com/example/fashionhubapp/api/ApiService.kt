@@ -14,6 +14,8 @@
     import com.example.fashionhubapp.model.PaymentRequest
     import com.example.fashionhubapp.model.Product
     import com.example.fashionhubapp.model.RegisterRequest
+    import com.example.fashionhubapp.model.ReviewRequest
+    import com.example.fashionhubapp.model.ReviewResponse
     import com.example.fashionhubapp.model.UserProfile
     import retrofit2.Call
     import retrofit2.http.Body
@@ -111,4 +113,12 @@
         fun getOrderItems(
             @Path("oid") oid: Int
         ): Call<List<OrderItemResponse>>
+        @POST("Reviews")
+        fun addReview(
+            @Body review: ReviewRequest
+        ): Call<Any>
+        @GET("Reviews/product/{pid}")
+        fun getReviewsByProduct(
+            @Path("pid") pid: Int
+        ): Call<List<ReviewResponse>>
     }

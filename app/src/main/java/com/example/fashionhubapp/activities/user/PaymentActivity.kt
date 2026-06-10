@@ -3,6 +3,7 @@ package com.example.fashionhubapp.activities.user
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -14,21 +15,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
+
 
 class PaymentActivity : AppCompatActivity() {
 
     private lateinit var spinnerPayment: Spinner
+    private lateinit var spinnerWallet: Spinner
+
     private lateinit var btnPay: Button
     private lateinit var txtAmount: TextView
 
     private lateinit var layoutCard: LinearLayout
+    private lateinit var layoutUpi: LinearLayout
+    private lateinit var layoutWallet: LinearLayout
+
     private lateinit var edtCardNumber: EditText
     private lateinit var edtExpiry: EditText
     private lateinit var edtCvv: EditText
-
-    private lateinit var layoutUpi: LinearLayout
     private lateinit var edtUpi: EditText
 
     private var totalAmount = 0.0
@@ -37,124 +41,135 @@ class PaymentActivity : AppCompatActivity() {
     private val api = RetrofitClient.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+//        Checkout.preload()
 
         setContentView(R.layout.activity_payment)
 
-        // BACK BUTTON
+        spinnerPayment = findViewById(R.id.spinnerPayment)
+        spinnerWallet = findViewById(R.id.spinnerWallet)
 
-        val btnBack =
-            findViewById<ImageView>(R.id.btnBack)
+        btnPay = findViewById(R.id.btnPay)
+        txtAmount = findViewById(R.id.txtAmount)
 
-        btnBack.setOnClickListener {
+        layoutCard = findViewById(R.id.layoutCard)
+        layoutUpi = findViewById(R.id.layoutUpi)
+        layoutWallet = findViewById(R.id.layoutWallet)
 
-            finish()
-        }
+        edtCardNumber = findViewById(R.id.edtCardNumber)
+        edtExpiry = findViewById(R.id.edtExpiry)
+        edtCvv = findViewById(R.id.edtCvv)
+        edtUpi = findViewById(R.id.edtUpi)
 
-        // BOTTOM NAVIGATION
+        address = intent.getStringExtra("ADDRESS") ?: ""
+        totalAmount = intent.getDoubleExtra("TOTAL", 0.0)
+
+        txtAmount.text = "₹%.2f".format(totalAmount)
+
+        setupBottomNavigation()
+        setupPaymentSpinner()
+        setupWalletSpinner()
+
+        btnPay.setOnClickListener {
+
+            val method = spinnerPayment.selectedItem.toString()
+
+            when (method) {
+
+                "UPI" -> {
+
+                    if (edtUpi.text.toString().trim().isEmpty()) {
+                        toast("Enter UPI ID")
+                        return@setOnClickListener
+                    }
+
+                    validateCartAndProceed("UPI")
+                }
+
+                "Wallet" -> {
+
+                    validateCartAndProceed(
+                        spinnerWallet.selectedItem.toString()
+                    )
+                }
+
+                "Debit / Credit Card" -> {
+
+                    if (edtCardNumber.text.toString().trim().isEmpty() ||
+                        edtExpiry.text.toString().trim().isEmpty() ||
+                        edtCvv.text.toString().trim().isEmpty()
+                    ) {
+
+                        toast("Enter Card Details")
+                        return@setOnClickListener
+                    }
+
+                    validateCartAndProceed("Card")
+                }
+
+                "Cash On Delivery" -> {
+
+                    validateCartAndProceed("Cash On Delivery")
+                }
+            }
+        }    }
+
+    private fun setupBottomNavigation() {
 
         val bottomNavigation =
-            findViewById<BottomNavigationView>(
-                R.id.bottomNavigation
-            )
+            findViewById<BottomNavigationView>(R.id.bottomNavigation)
 
-        bottomNavigation.selectedItemId =
-            R.id.nav_cart
+        bottomNavigation.selectedItemId = R.id.nav_cart
 
         bottomNavigation.setOnItemSelectedListener {
 
             when (it.itemId) {
 
                 R.id.nav_home -> {
-
                     startActivity(
                         Intent(
                             this,
                             UserDashboardActivity::class.java
                         )
                     )
-
                     true
                 }
 
-                R.id.nav_cart -> {
-
-                    true
-                }
+                R.id.nav_cart -> true
 
                 R.id.nav_profile -> {
-
                     startActivity(
                         Intent(
                             this,
                             ProfileActivity::class.java
                         )
                     )
-
                     true
                 }
 
                 R.id.nav_orders -> {
-
                     startActivity(
                         Intent(
                             this,
                             OrdersActivity::class.java
                         )
                     )
-
                     true
                 }
 
                 else -> false
             }
         }
+    }
 
-        spinnerPayment =
-            findViewById(R.id.spinnerPayment)
+    private fun setupPaymentSpinner() {
 
-        btnPay =
-            findViewById(R.id.btnPay)
-
-        txtAmount =
-            findViewById(R.id.txtAmount)
-
-        layoutCard =
-            findViewById(R.id.layoutCard)
-
-        edtCardNumber =
-            findViewById(R.id.edtCardNumber)
-
-        edtExpiry =
-            findViewById(R.id.edtExpiry)
-
-        edtCvv =
-            findViewById(R.id.edtCvv)
-
-        layoutUpi =
-            findViewById(R.id.layoutUpi)
-
-        edtUpi =
-            findViewById(R.id.edtUpi)
-
-        address =
-            intent.getStringExtra("ADDRESS") ?: ""
-
-        totalAmount =
-            intent.getDoubleExtra("TOTAL", 0.0)
-
-        txtAmount.text =
-            "Pay ₹$totalAmount"
-
-        val methods =
-            listOf(
-                "Select",
-                "COD",
-                "CARD",
-                "UPI",
-                "WALLET"
-            )
+        val methods = arrayListOf(
+            "Cash On Delivery",
+            "UPI",
+            "Wallet",
+            "Debit / Credit Card"
+        )
 
         spinnerPayment.adapter =
             ArrayAdapter(
@@ -173,69 +188,41 @@ class PaymentActivity : AppCompatActivity() {
                     id: Long
                 ) {
 
-                    val method =
-                        methods[position]
+                    layoutCard.visibility = View.GONE
+                    layoutUpi.visibility = View.GONE
+                    layoutWallet.visibility = View.GONE
 
-                    layoutCard.visibility =
-                        if (method == "CARD")
-                            View.VISIBLE
-                        else
-                            View.GONE
+                    when (position) {
 
-                    layoutUpi.visibility =
-                        if (method == "UPI")
-                            View.VISIBLE
-                        else
-                            View.GONE
+                        1 -> layoutUpi.visibility = View.VISIBLE
+
+                        2 -> layoutWallet.visibility = View.VISIBLE
+
+                        3 -> layoutCard.visibility = View.VISIBLE
+                    }
                 }
 
-                override fun onNothingSelected(
-                    parent: AdapterView<*>?
-                ) {
-                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-
-        btnPay.setOnClickListener {
-
-            val method =
-                spinnerPayment.selectedItem.toString()
-
-            if (method == "Select") {
-
-                toast("Select payment method")
-
-                return@setOnClickListener
-            }
-
-            if (method == "CARD") {
-
-                if (
-                    edtCardNumber.text.isEmpty() ||
-                    edtExpiry.text.isEmpty() ||
-                    edtCvv.text.isEmpty()
-                ) {
-
-                    toast("Enter card details")
-
-                    return@setOnClickListener
-                }
-            }
-
-            if (method == "UPI") {
-
-                if (edtUpi.text.isEmpty()) {
-
-                    toast("Enter UPI ID")
-
-                    return@setOnClickListener
-                }
-            }
-
-            validateCartAndProceed(method)
-        }
     }
 
-    // VALIDATE CART
+    private fun setupWalletSpinner() {
+
+        val wallets = arrayListOf(
+            "Paytm",
+            "PhonePe",
+            "Google Pay",
+            "Amazon Pay"
+        )
+
+        spinnerWallet.adapter =
+            ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                wallets
+            )
+    }
+
 
     private fun validateCartAndProceed(
         method: String
@@ -250,7 +237,6 @@ class PaymentActivity : AppCompatActivity() {
         if (uid == -1) {
 
             toast("User not logged in")
-
             return
         }
 
@@ -270,7 +256,6 @@ class PaymentActivity : AppCompatActivity() {
                     if (cartList.isEmpty()) {
 
                         toast("Cart is empty")
-
                         return
                     }
 
@@ -287,8 +272,6 @@ class PaymentActivity : AppCompatActivity() {
             })
     }
 
-    // CREATE ORDER
-
     private fun createOrder(
         cartList: List<Cart>,
         method: String
@@ -300,24 +283,21 @@ class PaymentActivity : AppCompatActivity() {
                 MODE_PRIVATE
             )
 
-        val uid =
-            pref.getInt("uid", 0)
-
-        val username =
-            pref.getString("name", "User")
-                ?: "User"
-
-        val orderReq =
+        val orderRequest =
             OrderRequest(
-                uid = uid,
+                uid = pref.getInt("uid", 0),
                 amount = totalAmount,
                 orderStatus = "Pending",
-                paymentStatus = "Pending",
+                paymentStatus =
+                    if (method == "Cash On Delivery")
+                        "Pending"
+                    else
+                        "Paid",
                 deliveryAddress = address,
-                username = username
+                username = pref.getString("name", "User") ?: "User"
             )
 
-        api.createOrder(orderReq)
+        api.createOrder(orderRequest)
             .enqueue(object : Callback<OrderResponse> {
 
                 override fun onResponse(
@@ -325,23 +305,15 @@ class PaymentActivity : AppCompatActivity() {
                     response: Response<OrderResponse>
                 ) {
 
-                    if (
-                        response.isSuccessful &&
+                    if (response.isSuccessful &&
                         response.body() != null
                     ) {
 
-                        val oid =
-                            response.body()!!.orderId
-
                         createOrderItems(
-                            oid,
+                            response.body()!!.orderId,
                             cartList,
                             method
                         )
-
-                    } else {
-
-                        toast("Order creation failed")
                     }
                 }
 
@@ -350,12 +322,10 @@ class PaymentActivity : AppCompatActivity() {
                     t: Throwable
                 ) {
 
-                    toast("Order failed")
+                    toast("Order Failed")
                 }
             })
     }
-
-    // CREATE ORDER ITEMS
 
     private fun createOrderItems(
         oid: Int,
@@ -389,10 +359,7 @@ class PaymentActivity : AppCompatActivity() {
 
                         if (completed == cartList.size) {
 
-                            createPayment(
-                                oid,
-                                method
-                            )
+                            createPayment(oid, method)
                         }
                     }
 
@@ -401,41 +368,30 @@ class PaymentActivity : AppCompatActivity() {
                         t: Throwable
                     ) {
 
-                        toast("Order item failed")
+                        toast("Order Item Failed")
                     }
                 })
         }
     }
-
-    // PAYMENT
 
     private fun createPayment(
         oid: Int,
         method: String
     ) {
 
-        val status =
-            if (method == "COD")
-                "Pending"
-            else
-                "Paid"
-
-        val currentDate =
-            SimpleDateFormat(
-                "yyyy-MM-dd'T'HH:mm:ss",
-                Locale.getDefault()
-            ).format(Date())
-
-        val paymentReq =
+        val paymentRequest =
             PaymentRequest(
                 oid = oid,
                 method = method,
                 amount = totalAmount,
-                payStatus = status,
-                payDate = currentDate
+                payStatus = if (method == "Cash On Delivery") "Pending" else "Paid",
+                payDate = SimpleDateFormat(
+                    "yyyy-MM-dd'T'HH:mm:ss",
+                    Locale.getDefault()
+                ).format(Date())
             )
 
-        api.createPayment(paymentReq)
+        api.createPayment(paymentRequest)
             .enqueue(object : Callback<Any> {
 
                 override fun onResponse(
@@ -443,39 +399,23 @@ class PaymentActivity : AppCompatActivity() {
                     response: Response<Any>
                 ) {
 
-                    if (!response.isSuccessful) {
-
-                        toast("Payment failed")
-
-                        return
-                    }
-
                     clearCart()
 
-                    Toast.makeText(
-                        this@PaymentActivity,
-                        "Payment Successful 🎉",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    toast("Payment Successfully")
 
-                    Handler(mainLooper)
+                    Handler(Looper.getMainLooper())
                         .postDelayed({
 
-                            val intent =
+                            startActivity(
                                 Intent(
                                     this@PaymentActivity,
-                                    UserDashboardActivity::class.java
+                                    OrdersActivity::class.java
                                 )
+                            )
 
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_NEW_TASK or
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            finishAffinity()
 
-                            startActivity(intent)
-
-                            finish()
-
-                        }, 2000)
+                        }, 1500)
                 }
 
                 override fun onFailure(
@@ -483,12 +423,10 @@ class PaymentActivity : AppCompatActivity() {
                     t: Throwable
                 ) {
 
-                    toast("Payment error")
+                    toast("Payment Save Failed")
                 }
             })
     }
-
-    // CLEAR CART
 
     private fun clearCart() {
 

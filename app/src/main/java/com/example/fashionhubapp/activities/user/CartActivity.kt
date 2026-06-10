@@ -57,17 +57,17 @@ class CartActivity : AppCompatActivity(),
 
         bottomNavigation = findViewById(R.id.bottomNavigation)
 
-        val btnBack =
-            findViewById<ImageView>(R.id.btnBack)
-
-        // =========================
-        // BACK BUTTON
-        // =========================
-
-        btnBack.setOnClickListener {
-
-            finish()
-        }
+//        val btnBack =
+//            findViewById<ImageView>(R.id.btnBack)
+//
+//        // =========================
+//        // BACK BUTTON
+//        // =========================
+//
+//        btnBack.setOnClickListener {
+//
+//            finish()
+//        }
 
         // =========================
         // RECYCLER VIEW

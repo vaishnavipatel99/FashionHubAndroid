@@ -1,6 +1,7 @@
 package com.example.fashionhubapp.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,8 @@ class ColorAdapter(
     private val context: Context,
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<ColorAdapter.ViewHolder>() {
+
+    private var selectedPosition = -1
 
     class ViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
@@ -42,13 +45,36 @@ class ColorAdapter(
         position: Int
     ) {
 
-        val color =
-            list[position]
+        val color = list[position]
 
-        holder.colorName.text =
-            color
+        holder.colorName.text = color
+
+        if (selectedPosition == position) {
+
+            holder.colorName.setBackgroundResource(
+                R.drawable.bg_color_selected
+            )
+
+            holder.colorName.setTextColor(
+                Color.WHITE
+            )
+
+        } else {
+
+            holder.colorName.setBackgroundResource(
+                R.drawable.bg_color_normal
+            )
+
+            holder.colorName.setTextColor(
+                Color.BLACK
+            )
+        }
 
         holder.itemView.setOnClickListener {
+
+            selectedPosition = position
+
+            notifyDataSetChanged()
 
             onClick(color)
         }

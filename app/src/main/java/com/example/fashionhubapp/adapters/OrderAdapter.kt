@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fashionhubapp.R
 import com.example.fashionhubapp.model.Order
+import com.google.android.material.button.MaterialButton
 
 class OrderAdapter(
     private val list: List<Order>,
@@ -21,28 +22,39 @@ class OrderAdapter(
         val txtPayment: TextView = view.findViewById(R.id.txtPayment)
         val txtAddress: TextView = view.findViewById(R.id.txtAddress)
         val txtDelivery: TextView = view.findViewById(R.id.txtDelivery)
+        val btnViewItems: MaterialButton = view.findViewById(R.id.btnViewItems)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): OrderViewHolder {
+
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_order, parent, false)
+
         return OrderViewHolder(view)
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount(): Int {
+        return list.size
+    }
 
-    override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: OrderViewHolder,
+        position: Int
+    ) {
 
         val order = list[position]
 
         holder.txtOrderId.text = "Order #${order.oid}"
         holder.txtAmount.text = "₹${order.amount}"
-        holder.txtStatus.text = "Status : ${order.orderStatus}"
-        holder.txtPayment.text = "Payment : ${order.paymentStatus}"
-        holder.txtAddress.text = "Address : ${order.deliveryAddress}"
-        holder.txtDelivery.text = "Delivery : ${order.estimatedDelivery}"
+        holder.txtStatus.text = "Status: ${order.orderStatus}"
+        holder.txtPayment.text = "Payment: ${order.paymentStatus}"
+        holder.txtAddress.text = "Address: ${order.deliveryAddress}"
+        holder.txtDelivery.text = "Delivery: ${order.estimatedDelivery}"
 
-        holder.itemView.setOnClickListener {
+        holder.btnViewItems.setOnClickListener {
             onClick(order)
         }
     }

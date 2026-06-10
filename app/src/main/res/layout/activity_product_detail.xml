@@ -10,46 +10,42 @@
 
     <!-- HEADER -->
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="70dp"
         android:background="#FFFFFF"
-        android:elevation="4dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:elevation="4dp">
 
-        <!-- BACK -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-           />
 
-        <!-- TITLE -->
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/fashionlogo"
+                android:scaleType="fitCenter" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Product Detail"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#111111"
-            android:layout_centerInParent="true"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="FashionHub"
+                android:textColor="#E91E63"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <!-- CART -->
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/btnCart"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/cart"
-           />
-
-    </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- BODY -->
 
@@ -204,6 +200,28 @@
                 android:textSize="15sp"
                 android:paddingStart="18dp"
                 android:paddingTop="10dp"/>
+
+            <!-- REVIEWS SECTION -->
+
+            <TextView
+                android:id="@+id/txtReviewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Customer Reviews"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="#111111"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerReviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:padding="10dp"
+                android:visibility="gone"/>
 
             <!-- BUTTON -->
 
