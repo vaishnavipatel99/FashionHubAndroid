@@ -62,6 +62,8 @@ class CheckoutActivity : AppCompatActivity() {
         txtAmount.text = "₹ $finalAmount"
 
         loadCoupons()
+        setupBottomNavigation()
+
 
         btnApplyCoupon.setOnClickListener {
 
@@ -98,7 +100,46 @@ class CheckoutActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+    private fun setupBottomNavigation() {
 
+        bottomNavigation.selectedItemId = R.id.nav_cart
+
+        bottomNavigation.setOnItemSelectedListener {
+
+            when (it.itemId) {
+
+                R.id.nav_home -> {
+                    startActivity(
+                        Intent(this, UserDashboardActivity::class.java)
+                    )
+                    true
+                }
+
+                R.id.nav_cart -> {
+                    startActivity(
+                        Intent(this, CartActivity::class.java)
+                    )
+                    true
+                }
+
+                R.id.nav_profile -> {
+                    startActivity(
+                        Intent(this, ProfileActivity::class.java)
+                    )
+                    true
+                }
+
+                R.id.nav_orders -> {
+                    startActivity(
+                        Intent(this, OrdersActivity::class.java)
+                    )
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
     // ✅ ONLY ONE LOAD FUNCTION
     private fun loadCoupons() {
 
@@ -151,21 +192,37 @@ class CheckoutActivity : AppCompatActivity() {
     private fun applyCoupon(item: CouponResponse) {
 
         if (totalAmount < item.minimumOrderAmount) {
+
             Toast.makeText(
                 this,
                 "Minimum order ₹${item.minimumOrderAmount}",
                 Toast.LENGTH_SHORT
             ).show()
+
             return
         }
 
-        discountAmount = item.discountType.toDouble()
-        finalAmount = totalAmount - discountAmount
-
-        txtDiscount.text = "Discount : ₹$discountAmount"
-        txtAmount.text = "₹ $finalAmount"
         edtCoupon.setText(item.couponCode)
 
-        Toast.makeText(this, "Coupon Applied", Toast.LENGTH_SHORT).show()
+        discountAmount =
+            item.discountType.toDoubleOrNull() ?: 0.0
+
+        finalAmount = totalAmount - discountAmount
+
+        if (finalAmount < 0) {
+            finalAmount = 0.0
+        }
+
+        txtDiscount.text =
+            "Discount : ₹%.2f".format(discountAmount)
+
+        txtAmount.text =
+            "₹ %.2f".format(finalAmount)
+
+        Toast.makeText(
+            this,
+            "Coupon Applied Successfully",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
