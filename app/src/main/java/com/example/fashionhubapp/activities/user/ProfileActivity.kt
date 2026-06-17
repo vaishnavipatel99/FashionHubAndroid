@@ -57,6 +57,10 @@ class ProfileActivity : AppCompatActivity() {
 
         etEmail =
             findViewById(R.id.etEmail)
+        etEmail.isFocusable = false
+        etEmail.isFocusableInTouchMode = false
+        etEmail.isClickable = false
+        etEmail.isCursorVisible = false
 
         etMobile =
             findViewById(R.id.etMobile)
